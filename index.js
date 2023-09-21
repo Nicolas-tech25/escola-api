@@ -1,6 +1,14 @@
 import express from 'express';
+import { inserir, ler } from './src/aluno.js'
 
 const app = express();
+
+/* Adicionando suporte ao formato json
+ */
+app.use(express.json());
+
+/* Adicionando suporte a dados vindos de formulários */
+app.use(express.urlencoded({ extended : true }));
 
 // Criando as totas
 
@@ -15,14 +23,17 @@ app.listen(porta, () => {
     console.log(`Servidor NodeJS rodando na porta ${porta}`);
 });
 
-// EXIBINDO DADOS DE UM ALUNO 
-app.get('/alunos/:id', (req, res) => {
-    res.send(`Dados de um aluno`);
+// EXIBINDO DADOS TODOS ALUNO 
+app.get('/alunos', (req, res) => {
+    ler(res);
+    
 });
 
 // INSERINDO NOVO ALUNO
 app.post('/alunos', (req, res) => {
-    res.send(`INSERINDO um aluno`);
+    // res.send(`INSERINDO um aluno`);
+    const novoAluno = req.body;
+    inserir(novoAluno, res);
 });
 
 // ATUALIZANDO DADOS DE UM ALUNO
@@ -33,4 +44,4 @@ app.patch('/alunos/:id', (req, res) => {
 // EXCLUIDO ALUNOS
 app.delete('/alunos/:id', (req, res) => {
     res.send(`EXCLUINDO alunos`);
-});
+}); 
