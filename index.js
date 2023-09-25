@@ -1,7 +1,8 @@
 import express from 'express';
-import { inserir, ler } from './src/aluno.js'
+import { inserir, ler, lerUm, atualizar, excluir } from './src/aluno.js'
 
 const app = express();
+const porta = process.env.PORT || 3306;
 
 /* Adicionando suporte ao formato json
  */
@@ -18,16 +19,22 @@ app.get('/', (req, res) => {
 });
 
 // Executando o servidor
-const porta = 8080;
 app.listen(porta, () => {
     console.log(`Servidor NodeJS rodando na porta ${porta}`);
 });
 
-// EXIBINDO DADOS TODOS ALUNO 
+// EXIBINDO DADOS TODOS ALUNOS
 app.get('/alunos', (req, res) => {
+    // 
     ler(res);
     
 });
+
+app.get('/alunos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    lerUm(id,res);
+});
+
 
 // INSERINDO NOVO ALUNO
 app.post('/alunos', (req, res) => {
@@ -38,10 +45,14 @@ app.post('/alunos', (req, res) => {
 
 // ATUALIZANDO DADOS DE UM ALUNO
 app.patch('/alunos/:id', (req, res) => {
-    res.send(`ATUALIZANDO DADOS DE um aluno`);
+    // res.send(`ATUALIZANDO DADOS DE um aluno`);    
+    const id = parseInt(req.params.id);
+    const aluno = req.body;
+    atualizar(id,aluno,res);
 });
 
 // EXCLUIDO ALUNOS
 app.delete('/alunos/:id', (req, res) => {
-    res.send(`EXCLUINDO alunos`);
+    const id = parseInt(req.params.id);
+    excluir(id,res);
 }); 
