@@ -12,7 +12,7 @@ import mysql2 from 'mysql2';
 const conexao = mysql2.createConnection({
     host:  'db4free.net',
     user: 'nicolastech',
-    password: 'senac123',
+    password: 'Senac123',
     database: 'apiescola12'
  });
 
